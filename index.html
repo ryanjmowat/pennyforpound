@@ -397,17 +397,13 @@
 	<img id="myImg" src="#" alt="AlexWazHere" width="500" height="500">
   <br>
  <!-- <button onclick="generatePDF()">Generate as PDF</button> -->
-<button id="dl-png">Download as PNG</button>
+<button id="generatePDF">Download as PNG</button>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.0/html2pdf.bundle.min.js"></script>
 
 <script src="html2canvas.min.js"></script>
-<script>
-	document.getElementById("dl-png").onclick = function() {
-    	const screenshotTarget = document.getElementById('table1');
 
-		<script>
-        // Add a click event listener to the "Generate PDF" button
+	<script>
         document.getElementById("generatePdf").addEventListener("click", function () {
             const element = document.getElementById("contentToConvert");
 
