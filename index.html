@@ -405,9 +405,22 @@
 
 <script type=”text/javascript”>
 var doc = new jsPDF();
-var specialElementHandlers = {
-‘#editor’: function (element, renderer) {
-return true;
+doc.setFontSize(22);	
+doc.text(20, 20, 'Questions');
+doc.setFontSize(16);
+doc.text(20, 30, 'This belongs to: ' + name);
+
+for(var i = 1; i <= 12; i ++) {
+	doc.text(20, 30 + (i * 10), i + ' x ' + multiplier + ' = ___');
+}
+
+doc.addPage();
+doc.setFontSize(22);
+doc.text(20, 20, 'Answers');
+doc.setFontSize(16);
+
+for(var i = 1; i <= 12; i ++) {
+	doc.text(20, 30 + (i * 10), i + ' x ' + multiplier + ' = ' + (i * multiplier));
 }
 };
 $(‘#generatePDF’).click(function () {
