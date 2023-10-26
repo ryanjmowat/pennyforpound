@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAILY TAKINGS SUBMISSION FORM</title>
+  <style>
+        body {
+            font-family:  "Helvetica Neue", Helvetica, Arial, "sans-serif";
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #7F2345;
+            color: white;
+        }
+
+        /* Style for the iOS-style tiles */
+        .tile {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #F5C7B8;
+        }
+  </style>
+</head>
+<body>
+  <!-- Store, Date, and Name Section -->
+  <div class="tile">
+    <h2>Store:</h2><select id="store-select">
+      <option value="Camberwell">
+        Camberwell
+      </option>
+      <option value="Richmond">
+        Richmond
+      </option>
+      <option value="Moorabbin">
+        Moorabbin
+      </option>
+      <option value="Holla Gelato">
+        Holla Gelato
+      </option>
+    </select><br>
+    <h2>Date:</h2><input type="date" id="date-input"><br>
+    <h2>Name:</h2><input type="text" id="name-input">
+  </div><!-- Cash Drawer Count Section -->
+  <div class="tile">
+    <h2>Cash Drawer Count</h2>
+    <table id="table1">
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>Count</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="cashdrawer-table-body">
+        <tr>
+          <td>100</td>
+          <td><input type="text" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>50</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>0.50</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>0.10</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr>
+        <tr>
+          <td>0.05</td>
+          <td><input type="number" value="0" class="cashdrawer-multiplier" oninput="calculateCashdrawerSubtotal()"></td>
+          <td class="cashdrawer-result">0</td>
+        </tr><!-- Add more rows for other values -->
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Cashdrawer Subtotal (Including $300 Float)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="cashdrawer-subtotal">0</td>
+        </tr>
+      </tbody>
+    </table>
+	  <table>
+      <thead>
+        <tr>
+          <th>Actual Cashdrawer - $300 Float</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="actual-cashdrawer-subtotal">0</td>
+        </tr>
+      </tbody>
+		  </table>
+	  <table>
+      <thead>
+        <tr>
+          <th>Amount to be banked (Rounded up / down
+			  to the nearest $5)
+			</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="rounded-cashdrawer-total">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- Bankcard Section -->
+  <div class="tile">
+    <h2>Bankcard</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Terminal</th>
+          <th>BANKCARD</th>
+          <th>AMEX</th>
+        </tr>
+      </thead>
+      <tbody id="bankcard-table-body">
+        <!-- Rows will be dynamically added here -->
+        <tr>
+          <td>Terminal 1</td>
+          <td><input type="number" value="0" class="bankcard-input" oninput="calculateBankcardSubtotal()"></td>
+          <td><input type="number" value="0" class="amex-input" oninput="calculateBankcardSubtotal()"></td>
+        </tr>
+        <tr>
+          <td>Terminal 2</td>
+          <td><input type="number" value="0" class="bankcard-input" oninput="calculateBankcardSubtotal()"></td>
+          <td><input type="number" value="0" class="amex-input" oninput="calculateBankcardSubtotal()"></td>
+        </tr>
+        <tr>
+          <td>Terminal 3</td>
+          <td><input type="number" value="0" class="bankcard-input" oninput="calculateBankcardSubtotal()"></td>
+          <td><input type="number" value="0" class="amex-input" oninput="calculateBankcardSubtotal()"></td>
+        </tr>
+        <tr>
+          <td>Terminal 4</td>
+          <td><input type="number" value="0" class="bankcard-input" oninput="calculateBankcardSubtotal()"></td>
+          <td><input type="number" value="0" class="amex-input" oninput="calculateBankcardSubtotal()"></td>
+        </tr>
+        <tr>
+          <td>Terminal 5</td>
+          <td><input type="number" value="0" class="bankcard-input" oninput="calculateBankcardSubtotal()"></td>
+          <td><input type="number" value="0" class="amex-input" oninput="calculateBankcardSubtotal()"></td>
+        </tr><!-- Add more rows for additional terminals -->
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>BANKCARD Subtotal</th>
+          <th>AMEX Subtotal</th>
+        </tr>x
+      </thead>
+      <tbody id="bankcard-subtotal-row">
+        <tr>
+          <td id="bankcard-subtotal">0</td>
+          <td id="amex-subtotal">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>ALL CARDS Total</th>
+        </tr>
+      </thead>
+      <tbody id="all-cards-total-row">
+        <tr>
+          <td id="all-cards-total">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- Petty Cash Receipts Section -->
+  <div class="tile">
+    <h2>Petty Cash Receipts</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="receipts-table-body">
+        <!-- Rows will be dynamically added here -->
+        <tr>
+  <td>FOOD RECEIPTS</td>
+  <td><input type="number" value="0" class="receipt-input food-receipt-input" oninput="calculatePetty-cash-receipts-subtotal()"></td>
+</tr>
+<tr>
+  <td>BEVERAGE RECEIPTS</td>
+  <td><input type="number" value="0" class="receipt-input beverage-receipt-input" oninput="calculatePetty-cash-receipts-subtotal()"></td>
+</tr>
+<tr>
+  <td>CAFE SUPPLIES RECEIPTS</td>
+  <td><input type="number" value="0" class="receipt-input cafe-supplies-receipt-input" oninput="calculatePetty-cash-receipts-subtotal()"></td>
+</tr>
+      </tbody>
+      <table>
+      <thead>
+        <tr>
+          <th>PETTY CASH RECEIPTS Subtotal</th>
+        </tr>
+      </thead>
+      <tbody id="petty-cash-receipts-subtotal-row">
+        <tr>
+          <td id="petty-cash-receipts-subtotal">0.00</td>
+        </tr>
+      </tbody>
+    </table>
+    <p> Please upload a picture of all the recipts here. The picture will be displayed at the bottom of the form. Thanks. Alex!
+    <input type='file' />
+  </div><!-- Total Calculation Section -->
+  <div class="tile">
+    <h2>Total Calculation</h2><!-- Total Calculation Table wrapped in a div with a class -->
+    <div class="total-calculation">
+      <table>
+        <thead>
+          <tr>
+            <th>TOTAL - Cash, Cards & Receipts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="second-last-total">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-calculation">
+      <table>
+        <thead>
+          <tr>
+            <th>TOTAL - $300 Float</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="last-total">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- TAKINGS - ALL Terminals Input and Difference Calculation -->
+    <div class="total-calculation">
+      From your ordermate terminal, Print out the '<strong>TAKINGS - ALL Cashdrawers</strong>' report and enter the <strong>'Total Takings'</strong>Value in here.
+      <table>
+        <thead>
+          <tr>
+            <th>TAKINGS - ALL Terminals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="number" id="takings-all-input" value="0.00" oninput="calculateTotal()"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-calculation">
+      <em>If difference is positive, Ring in sales as close to the value as possible without going over, then cash it off using <strong>'Quick Pay'</strong></em>
+      <table>
+        <thead>
+          <tr>
+            <th>Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="difference-total">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- Sales vs Takings Section -->
+  <div class="tile">
+    <h2>SALES vs TAKINGS</h2>
+	  <em>After you have rung in the extra sales (in the difference) field, reprint the TAKINGS - All Terminals report in Ordermate.</em>
+    <div class="total-calculation">
+      <table>
+        <thead>
+          <tr>
+            <th>TAKINGS - ALL CASHDRAWERS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="number" id="takings-input" value="0.00" oninput="calculateSalesVsTakings()"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-calculation">
+      <table>
+        <thead>
+          <tr>
+            <th>SALES - ALL CASHDRAWERS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="number" id="sales-input" value="0.00" oninput="calculateSalesVsTakings()"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-calculation">
+		<em>The difference between Sales vs Takings is reflected in Debtor Sales, Voucher Purchases and Redeems, etc.</em>
+      <table>
+        <thead>
+          <tr>
+            <th>DIFFERENCE - SALES vs TAKINGS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="takings-vs-sales">0.00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-calculation">
+      <table>
+        <thead>
+          <tr>
+            <th>DIFFERENCE - ACTUAL TAKINGS vs REPORT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="total-vs-takings">0.00</td>
+          </tr>
+		  </thead>
+		<tbody>
+		  <tr>
+      </table>
+		</tr>
+        </tbody>
+      </table>
+    </div>
+	<body>
+		<em>Actual Takings is the Combined Value of EFTPOS, Cash (minus float), and Petty Cash Receipts. This Report Value is Calculated from 'Takings - All Cashdrawers' when the form is reprinted.</em>
+			</body>
+
+<div class="tile">
+    <h2>Picture</h2><!-- Total Calculation Table wrapped in a div with a class -->
+	<br>
+	<img id="myImg" src="#" alt="AlexWazHere" width="500" height="500">
+  <br>
+ <!-- <button onclick="generatePDF()">Generate as PDF</button> -->
+<button id="dl-png">Download as PNG</button>
+
+<script src="html2canvas.min.js"></script>
+<script>
+	document.getElementById("dl-png").onclick = function() {
+    	const screenshotTarget = document.getElementById('table1');
+    
+    html2canvas(screenshotTarget).then((canvas) => {
+    const base64image = canvas.toDataURL("image/png");
+    var anchor = document.createElement('a');
+    anchor.setAttribute("href", base64image);
+    anchor.setAttribute("download", "my-image.png");
+    anchor.click();
+    anchor.remove();
+    }):
+  };
+</script>
+
+	<script> 
+window.addEventListener('load', function pics() {
+  document.querySelector('input[type="file"]').addEventListener('change', function pics() {
+    if (this.files && this.files[0]) {
+      var img = document.querySelector('img'); // $('img')[0]
+      img.src = URL.createObjectURL(this.files[0]); // set src to file url
+    }
+  });
+});
+
+</script>
+
+	
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cashdrawerMultipliers = document.querySelectorAll('.cashdrawer-multiplier');
+  cashdrawerMultipliers.forEach((input) => {
+    input.addEventListener('input', calculateCashdrawerSubtotal);
+  });
+  
+
+  const bankcardInputs = document.querySelectorAll('.bankcard-input');
+  bankcardInputs.forEach((input) => {
+    input.addEventListener('input', calculateBankcardSubtotal);
+  });
+
+  const amexInputs = document.querySelectorAll('.amex-input');
+  amexInputs.forEach((input) => {
+    input.addEventListener('input', calculateBankcardSubtotal);
+  });
+
+  const receiptInputs = document.querySelectorAll('.receipt-input');
+  receiptInputs.forEach((input) => {
+    input.addEventListener('input', calculateReceiptsSubtotal);
+  });
+
+  // Add input event listener for the "Takings - All Terminals" input
+  const takingsAllInput = document.getElementById('takings-all-input');
+  takingsAllInput.addEventListener('input', calculateDifference);
+
+  // Function to calculate cash drawer subtotal
+function calculateCashdrawerSubtotal() {
+  let cashdrawerTotal = 0; // Initialize with $300 float
+  cashdrawerMultipliers.forEach((input, index) => {
+    const value = parseFloat(input.value) || 0;
+    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.1, 0.05][index];
+    const subtotal = value * denomination;
+    cashdrawerTotal += subtotal;
+	const actualcash = cashdrawerTotal - 300;
+	const roundedAmount = Math.round(actualcash / 5) * 5; // Round to the nearest $5
+    document.querySelectorAll('.cashdrawer-result')[index].textContent = subtotal.toFixed(2);
+	document.getElementById('actual-cashdrawer-subtotal').textContent = actualcash.toFixed(2);
+	document.getElementById('rounded-cashdrawer-total').textContent = roundedAmount.toFixed(2);
+	
+  });
+  document.getElementById('cashdrawer-subtotal').textContent = cashdrawerTotal.toFixed(2);
+  calculateBanking(); // Call the banking calculation function
+  calculateTotal(); // Recalculate the total
+  
+
+  // Calculate the sum of all rows
+	/*
+  let sumOfAllRows = cashdrawerMultipliers.reduce((sum, input, index) => {
+    const value = parseFloat(input.value) || 0;
+    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.1, 0.05][index];
+    return sum + value * denomination;
+  }, 0);
+  document.getElementById('actual-cashdrawer-subtotal').textContent = (sumOfAllRows + 300).toFixed(2); */
+} 
+
+
+	// Find the elements by their IDs
+  var cashdrawerSubtotalElement = document.getElementById('cashdrawer-subtotal');
+  var actualCashdrawerSubtotalElement = document.getElementById('actual-cashdrawer-subtotal');
+
+  // Function to update the actual cash drawer subtotal
+  function updateActualCashDrawerSubtotal() {
+    // Get the current value from the 'cashdrawer-subtotal' element
+    var cashdrawerSubtotal = parseFloat(cashdrawerSubtotalElement.textContent);
+
+    // Subtract 300 from the 'cashdrawer-subtotal'
+    var actualCashdrawerSubtotal = cashdrawerSubtotal - 300;
+
+    // Set the result in the 'actual-cashdrawer-subtotal' element
+    actualCashdrawerSubtotalElement.textContent = actualCashdrawerSubtotal.toFixed(2); // Display the result with 2 decimal places
+  }
+
+  // Add an input event listener to 'cashdrawer-subtotal' to call the function when there's an input change
+  cashdrawerSubtotalElement.addEventListener('input', updateActualCashDrawerSubtotal);
+	
+	// Find the elements by their IDs
+var cashdrawerSubtotalElement = document.getElementById('cashdrawer-subtotal');
+var actualCashdrawerSubtotalElement = document.getElementById('actual-cashdrawer-subtotal');
+
+// Function to update the actual cash drawer subtotal
+function updateActualCashDrawerSubtotal() {
+  // Get the current value from the 'cashdrawer-subtotal' element
+  var cashdrawerSubtotal = parseFloat(cashdrawerSubtotalElement.textContent);
+
+  // Subtract 300 from the 'cashdrawer-subtotal'
+  var actualCashdrawerSubtotal = cashdrawerSubtotal - 300;
+
+  // Set the result in the 'actual-cashdrawer-subtotal' element
+  actualCashdrawerSubtotalElement.textContent = actualCashdrawerSubtotal.toFixed(2); // Display the result with 2 decimal places
+}
+
+// Add an input event listener to 'cashdrawer-subtotal' to call the function when there's an input change
+cashdrawerSubtotalElement.addEventListener('input', updateActualCashDrawerSubtotal);
+
+
+	
+
+  // Function to calculate bankcard and Amex subtotals
+  function calculateBankcardSubtotal() {
+    let bankcardTotal = 0;
+    let amexTotal = 0;
+    bankcardInputs.forEach((input, index) => {
+      const bankcardValue = parseFloat(input.value) || 0;
+      const amexValue = parseFloat(amexInputs[index].value) || 0;
+      bankcardTotal += bankcardValue;
+      amexTotal += amexValue;
+    });
+    document.getElementById('bankcard-subtotal').textContent = bankcardTotal.toFixed(2);
+    document.getElementById('amex-subtotal').textContent = amexTotal.toFixed(2);
+    calculateAllCardsTotal(); // Recalculate all cards total
+  }
+
+  // Function to calculate all cards total
+  function calculateAllCardsTotal() {
+    const bankcardTotal = parseFloat(document.getElementById('bankcard-subtotal').textContent);
+    const amexTotal = parseFloat(document.getElementById('amex-subtotal').textContent);
+    const allCardsTotal = bankcardTotal + amexTotal;
+    document.getElementById('all-cards-total').textContent = allCardsTotal.toFixed(2);
+    calculateTotal(); // Recalculate the total
+  }
+
+  // Function to calculate petty cash receipts subtotal
+  function calculateReceiptsSubtotal() {
+    let receiptsTotal = 0;
+    const foodReceiptInputs = document.querySelectorAll('.food-receipt-input');
+    const beverageReceiptInputs = document.querySelectorAll('.beverage-receipt-input');
+    const cafeSuppliesReceiptInputs = document.querySelectorAll('.cafe-supplies-receipt-input');
+
+    // Calculate the total for the FOOD RECEIPTS
+    foodReceiptInputs.forEach((input) => {
+      const value = parseFloat(input.value) || 0;
+      receiptsTotal += value;
+    });
+
+    // Calculate the total for the BEVERAGE RECEIPTS
+    beverageReceiptInputs.forEach((input) => {
+      const value = parseFloat(input.value) || 0;
+      receiptsTotal += value;
+    });
+
+    // Calculate the total for the CAFE SUPPLIES RECEIPTS
+    cafeSuppliesReceiptInputs.forEach((input) => {
+      const value = parseFloat(input.value) || 0;
+      receiptsTotal += value;
+    });
+
+    document.getElementById('petty-cash-receipts-subtotal').textContent = receiptsTotal.toFixed(2);
+    calculateTotal(); // Recalculate the total
+  }
+
+  // Function to calculate the total of all sections
+  function calculateTotal() {
+    // Calculate the second-last total (Cash, Cards & Receipts)
+    const cashdrawerSubtotal = parseFloat(document.getElementById('cashdrawer-subtotal').textContent);
+    const allCardsTotal = parseFloat(document.getElementById('all-cards-total').textContent);
+    const pettyCashReceiptsSubtotal = parseFloat(document.getElementById('petty-cash-receipts-subtotal').textContent);
+    const secondLastTotal = cashdrawerSubtotal + allCardsTotal + pettyCashReceiptsSubtotal;
+    document.getElementById('second-last-total').textContent = secondLastTotal.toFixed(2);
+
+    // Calculate the last total (Total - $300 Float)
+    const floatAmount = 300; // Adjust this value if needed
+    const lastTotal = secondLastTotal - floatAmount;
+    document.getElementById('last-total').textContent = lastTotal.toFixed(2);
+
+    // Calculate the difference
+    const takingsAllInput = parseFloat(document.getElementById('takings-all-input').value) || 0;
+    const difference = lastTotal - takingsAllInput;
+    document.getElementById('difference-total').textContent = difference.toFixed(2);
+  }
+
+  // Function to calculate the difference
+  function calculateDifference() {
+    const takingsAllInput = parseFloat(document.getElementById('takings-all-input').value) || 0;
+    const lastTotal = parseFloat(document.getElementById('last-total').textContent) || 0;
+    const difference = takingsAllInput - lastTotal;
+    document.getElementById('difference-total').textContent = difference.toFixed(2);
+    calculateTotal(); // Recalculate the total
+  }
+
+  // Function to calculate "Sales vs Takings" section
+    function calculateSalesVsTakings() {
+      const takingsInput = parseFloat(document.getElementById('takings-input').value) || 0;
+      const salesInput = parseFloat(document.getElementById('sales-input').value) || 0;
+
+      const takingsVsSalesDifference = takingsInput - salesInput;
+      const totalVsTakingsDifference = takingsInput - parseFloat(document.getElementById('last-total').textContent) || 0;
+
+      // Update the HTML elements with the calculated values
+      document.getElementById('takings-vs-sales').textContent = takingsVsSalesDifference.toFixed(2);
+      document.getElementById('total-vs-takings').textContent = totalVsTakingsDifference.toFixed(2);
+    }
+
+    // Add input event listeners for the 'takings-input' and 'sales-input' fields
+    const takingsInput = document.getElementById('takings-input');
+    const salesInput = document.getElementById('sales-input');
+    takingsInput.addEventListener('input', calculateSalesVsTakings);
+    salesInput.addEventListener('input', calculateSalesVsTakings);
+	
+// Add input event listeners for the 'cashdrawer-multiplier' elements
+cashdrawerMultipliers.forEach((input, index) => {
+  input.addEventListener('input', (event) => {
+    calculateCashdrawerSubtotal(event, index);
+  });
+});
+/*
+// Updated calculateCashdrawerSubtotal function
+function calculateCashdrawerSubtotal(event, index) {
+  let cashdrawerTotal = 0;
+  const value = parseFloat(event.target.value) || 0;
+  const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.1, 0.05][index];
+  const subtotal = value * denomination;
+  cashdrawerTotal += subtotal;
+  document.querySelectorAll('.cashdrawer-result')[index].textContent = subtotal.toFixed(2);
+  document.getElementById('cashdrawer-subtotal').textContent = cashdrawerTotal.toFixed(2);
+  calculateBanking(); // Call the banking calculation function
+  calculateTotal(); // Recalculate the total
+}
+*/
+	// Initialize the banking calculations when the page loads
+calculateBanking();
+
+// Add input event listeners for the 'cashdrawer-subtotal'
+document.getElementById('cashdrawer-subtotal').addEventListener('input', calculateBanking);
+
+// Add input event listeners for the 'rounded-amount'
+document.getElementById('rounded-amount').addEventListener('input', calculateBanking);
+
+    // Initialize the totals when the page loads
+    calculateTotal();
+  });
+  
+ 
+
+</script>  
+		
+</body>
+</html>
