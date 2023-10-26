@@ -399,10 +399,22 @@
  <!-- <button onclick="generatePDF()">Generate as PDF</button> -->
 <button id="dl-png">Download as PNG</button>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.0/html2pdf.bundle.min.js"></script>
+
 <script src="html2canvas.min.js"></script>
 <script>
 	document.getElementById("dl-png").onclick = function() {
     	const screenshotTarget = document.getElementById('table1');
+
+		<script>
+        // Add a click event listener to the "Generate PDF" button
+        document.getElementById("generatePdf").addEventListener("click", function () {
+            const element = document.getElementById("contentToConvert");
+
+            // Use html2pdf to create a PDF from the content
+            html2pdf().from(element).save();
+        });
+    </script>
     
     html2canvas(screenshotTarget).then((canvas) => {
     const base64image = canvas.toDataURL("image/png");
