@@ -410,8 +410,7 @@
                 var doc = new jsPDF();
 
                 // Add HTML content to the PDF
-                doc.fromHTML($('body').html(), 15, 15, {
-                    width: 170
+                doc.addHTML($('body', function () {
                 });
 
                 // Save the PDF with a desired filename
