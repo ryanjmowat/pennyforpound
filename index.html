@@ -407,31 +407,44 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-<script>
-document.getElementById('generatePDF').addEventListener('click', function () {
-  const pdfButton = this;
-  pdfButton.disabled = true;
+ <!-- Add an input range field -->
+  <label for="range-input">Range Input:</label>
+  <input type="range" id="range-input" min="0" max="100" value="50">
 
-  // Capture the HTML content as an image using html2canvas
-  html2canvas(document.body).then(function (canvas) {
-    const imgData = canvas.toDataURL('image/png');
+  <!-- Add a button to generate the PDF -->
+  <button id="generatePDF">Download as PDF</button>
 
-    // Calculate the page size (A4: [595.28, 841.89])
-    const pdf = new jsPDF({
-      unit: 'pt',
-      format: [canvas.width, canvas.height],
+  <script>
+    document.getElementById('generatePDF').addEventListener('click', function () {
+      const pdfButton = this;
+      pdfButton.disabled = true;
+
+      // Capture the entire webpage's content using html2canvas
+      html2canvas(document.body, {
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
+      }).then(function (canvas) {
+        const imgData = canvas.toDataURL('image/png');
+
+        // Calculate the page size (A4: [595.28, 841.89])
+        const pdf = new jsPDF({
+          unit: 'pt',
+          format: 'a4'
+        });
+
+        pdf.addImage(imgData, 'PNG', 0, 0, 595.28, 841.89);
+
+        // Save the PDF with a desired filename
+        pdf.save('entire_webpage.pdf');
+
+        pdfButton.disabled = false;
+      });
     });
-
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-
-    // Save the PDF with a desired filename
-    pdf.save('your_document.pdf');
-
-    pdfButton.disabled = false;
-  });
-});
-</script>
-
+  </script>
+</body>
+</html>
 
 	<script> 
 window.addEventListener('load', function pics() {
