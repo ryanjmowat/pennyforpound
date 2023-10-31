@@ -487,7 +487,7 @@ function calculateCashdrawerSubtotal() {
   let cashdrawerTotal = 0; // Initialize with $300 float
   cashdrawerMultipliers.forEach((input, index) => {
     const value = parseFloat(input.value) || 0;
-    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.1, 0.05][index];
+    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05][index];
     const subtotal = value * denomination;
     cashdrawerTotal += subtotal;
 	const actualcash = cashdrawerTotal - 300;
@@ -506,7 +506,7 @@ function calculateCashdrawerSubtotal() {
 	/*
   let sumOfAllRows = cashdrawerMultipliers.reduce((sum, input, index) => {
     const value = parseFloat(input.value) || 0;
-    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.1, 0.05][index];
+    const denomination = [100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05][index];
     return sum + value * denomination;
   }, 0);
   document.getElementById('actual-cashdrawer-subtotal').textContent = (sumOfAllRows + 300).toFixed(2); */
